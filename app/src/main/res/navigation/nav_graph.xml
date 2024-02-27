@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.cs4520.assignment3.ui.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+
+        <action
+            android:id="@+id/action_mainFragment_to_MVPFragment"
+            app:destination="@id/MVPFragment"/>
+
+        <action
+            android:id="@+id/action_mainFragment_to_MVVMFragment"
+            app:destination="@id/MVVMFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/MVPFragment"
+        android:name="com.cs4520.assignment3.ui.mvp.MVPFragment"
+        android:label="fragment_m_v_p"
+        tools:layout="@layout/fragment_m_v_p" />
+
+    <fragment
+        android:id="@+id/MVVMFragment"
+        android:name="com.cs4520.assignment3.ui.mvvm.MVVMFragment"
+        android:label="fragment_m_v_v_m"
+        tools:layout="@layout/fragment_m_v_v_m" />
+</navigation>
