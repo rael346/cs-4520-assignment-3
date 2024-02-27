@@ -1,4 +1,5 @@
 # Assignment 3
+[Github project](https://github.com/rael346/cs-4520-assignment-3)
 
 ## Project structure
 - Entry point: `MainActivity.kt`
