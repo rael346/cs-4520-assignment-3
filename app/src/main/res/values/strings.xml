@@ -3,4 +3,10 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="mvp_button_text">MVP</string>
     <string name="mvvm_button_text">MVVM</string>
+    <string name="hint_number_1">Enter number 1</string>
+    <string name="hint_number_2">Enter number 2</string>
+    <string name="add_button_text">Add</string>
+    <string name="subtract_button_text">Subtract</string>
+    <string name="multiply_button_text">Multiply</string>
+    <string name="divide_button_text">Divide</string>
 </resources>

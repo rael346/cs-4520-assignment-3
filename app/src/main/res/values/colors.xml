@@ -7,4 +7,6 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="bg_mvp_fragment">#c4b8e1</color>
+    <color name="bg_mvvm_fragment">#ffb3ba</color>
 </resources>
