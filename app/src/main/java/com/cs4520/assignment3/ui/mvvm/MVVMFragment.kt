@@ -5,56 +5,88 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.viewModels
 import com.cs4520.assignment3.R
+import com.cs4520.assignment3.databinding.FragmentMVPBinding
+import com.cs4520.assignment3.databinding.FragmentMVVMBinding
+import com.cs4520.assignment3.ui.Operation
+import java.util.InvalidPropertiesFormatException
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MVVMFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MVVMFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    private val viewModel: MVVMViewModel by viewModels()
+    private lateinit var binding: FragmentMVVMBinding
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_m_v_v_m, container, false)
+        binding = FragmentMVVMBinding.inflate(inflater, container, false)
+
+        binding.addButton.setOnClickListener {
+            operate(Operation.Add)
+        }
+
+        binding.subtractButton.setOnClickListener {
+            operate(Operation.Subtract)
+        }
+
+        binding.multiplyButton.setOnClickListener {
+            operate(Operation.Multiply)
+        }
+
+        binding.divideButton.setOnClickListener {
+            operate(Operation.Divide)
+        }
+
+        viewModel.result.observe(viewLifecycleOwner) { result ->
+            if (result == null) {
+                binding.result.text = ""
+                binding.result.visibility = View.INVISIBLE
+            } else {
+                binding.result.text = "Result ${result}"
+                binding.result.visibility = View.VISIBLE
+            }
+        }
+
+        viewModel.error.observe(viewLifecycleOwner) { error ->
+            if (error != null) {
+                displayError(error)
+            }
+        }
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MVVMFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MVVMFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    private fun operate(operation: Operation) {
+        val number1Text = binding.number1.text.toString()
+        val number2Text = binding.number2.text.toString()
+
+        if (number1Text == "") {
+            binding.number1.error = "Number 1 field is empty"
+            displayError("Number 1 field is empty")
+            return
+        }
+
+        if (number2Text == "") {
+            binding.number2.error = "Number 2 field is empty"
+            displayError("Number 2 field is empty")
+            return
+        }
+
+        val number1: Int = number1Text.toInt()
+        val number2: Int = number2Text.toInt()
+
+        viewModel.operate(number1, number2, operation)
+        clearInputs()
+    }
+    private fun displayError(message: String) {
+        val appContext = context?.applicationContext ?: return
+        Toast.makeText(appContext, message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun clearInputs() {
+        binding.number1.text.clear()
+        binding.number2.text.clear()
     }
 }

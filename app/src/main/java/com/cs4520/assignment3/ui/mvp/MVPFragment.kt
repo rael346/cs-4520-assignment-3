@@ -1,21 +1,20 @@
 package com.cs4520.assignment3.ui.mvp
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.cs4520.assignment3.R
 import com.cs4520.assignment3.databinding.FragmentMVPBinding
-import com.cs4520.assignment3.databinding.FragmentMainBinding
+import com.cs4520.assignment3.ui.Operation
 import java.util.InvalidPropertiesFormatException
 
 interface MVPView {
     fun getNumberInputs(): Pair<Int, Int>
     fun displayResult(result: Int)
     fun displayError(message: String)
+    fun clearInputs()
 }
 class MVPFragment : Fragment(), MVPView {
     private val presenter = MVPPresenter(this, MVPModel())
@@ -74,6 +73,11 @@ class MVPFragment : Fragment(), MVPView {
     override fun displayError(message: String) {
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, message, Toast.LENGTH_LONG).show()
+    }
+
+    override fun clearInputs() {
+        binding.number1.text.clear()
+        binding.number2.text.clear()
     }
 
     override fun onDestroy() {

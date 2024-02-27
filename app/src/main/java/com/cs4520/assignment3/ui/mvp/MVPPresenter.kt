@@ -1,7 +1,7 @@
 package com.cs4520.assignment3.ui.mvp
 
+import com.cs4520.assignment3.ui.Operation
 import java.lang.Exception
-import java.util.InvalidPropertiesFormatException
 
 interface Presenter {
     fun operate(operation: Operation)
@@ -32,6 +32,8 @@ class MVPPresenter(private var view: MVPView?, private val model: MVPModel): Pre
             e.message?.let { view?.displayError(it) }
             return;
         }
+
+        view?.clearInputs()
     }
 
     override fun onDestroy() {
